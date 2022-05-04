@@ -17,6 +17,7 @@ jobs:
       - name: Checkout master
         uses: actions/checkout@v2
 
+<<<<<<< HEAD
       - uses: arduino/compile-sketches@v1
         with:
           fqbn: 'arduino:avr:nano:cpu=atmega328'
@@ -30,3 +31,15 @@ jobs:
           sketch-paths: |
             - 'src/gaggiuino.ino'
             - 'scales-calibration/scales-calibration.ino'
+=======
+      - name: Set up Python
+        uses: actions/setup-python@v1
+
+      - name: Install Platformio
+        run: |
+          python3 -c "$(curl -fsSL https://raw.githubusercontent.com/platformio/platformio/master/scripts/get-platformio.py)"
+
+      - name: Build Gaggiuino
+        run: |
+          ~/.platformio/penv/bin/platformio run
+>>>>>>> 9fb4512 (Use platformio in GH actions)
