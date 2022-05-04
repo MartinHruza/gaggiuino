@@ -560,15 +560,11 @@ void trigger1() {
       eepromData.values.preinfusion_sec  = myNex.readNumber("piSec");
       eepromData.values.preinfusion_bar  = myNex.readNumber("piBar");
       eepromData.values.preinfusion_soak = myNex.readNumber("piSoak");
-
-      rc = eepromWrite();
       break;
     case 4:
       //Saving brewSettings
       eepromData.values.homeOnShotFinish  = myNex.readNumber("homeOnBrewFinish");
       eepromData.values.graphBrew         = myNex.readNumber("graphEnabled");
-
-      rc = eepromWrite();
       break;
     case 5:
       break;
@@ -579,7 +575,6 @@ void trigger1() {
       eepromData.values.hpwr     = myNex.readNumber("hpwr");
       eepromData.values.mDivider = myNex.readNumber("mDiv");
       eepromData.values.bDivider = myNex.readNumber("bDiv");
-      rc = eepromWrite();
       break;
     case 7:
       eepromData.values.regpwrHz = myNex.readNumber("regHz");
@@ -587,13 +582,12 @@ void trigger1() {
       ITimer1.attachInterrupt(eepromData.values.regpwrHz * 2, presISR);
 #endif
       eepromData.values.warmup = myNex.readNumber("warmupState");
-      rc = eepromWrite();
       break;
     default:
       break;
   }
 
-
+  rc = eepromWrite();
   if (rc == true) {
     myNex.writeStr("popupMSG.t0.txt","UPDATE SUCCESSFUL!");
   } else {
