@@ -87,26 +87,26 @@ bool eepromWrite() {
 void setEepromDefaults() {
   eepromData.reset_flag = EEPROM_RESET;
 
-  eepromData.values.setpoint             = 100;
-  eepromData.values.offset               = 7;
-  eepromData.values.hpwr                 = 550;
-  eepromData.values.mDivider            = 5;
-  eepromData.values.bDivider            = 2;
-  eepromData.values.pStart              = 9;
-  eepromData.values.pFinish             = 6;
-  eepromData.values.pHold               = 7;
-  eepromData.values.pLength             = 30;
-  eepromData.values.pProfile            = 0;
-  eepromData.values.preinfusion          = false;
-  eepromData.values.preinfusion_sec      = 8;
-  eepromData.values.preinfusion_bar      = 2;
-  eepromData.values.preinfusion_soak     = 5;
-  eepromData.values.regpwrHz            = 60;
-  eepromData.values.warmup               = false;
+  eepromData.values.setpoint          = 100;
+  eepromData.values.offset            = 7;
+  eepromData.values.hpwr              = 550;
+  eepromData.values.mDivider          = 5;
+  eepromData.values.bDivider          = 2;
+  eepromData.values.pStart            = 9;
+  eepromData.values.pFinish           = 6;
+  eepromData.values.pHold             = 7;
+  eepromData.values.pLength           = 30;
+  eepromData.values.pProfile          = 0;
+  eepromData.values.preinfusion       = false;
+  eepromData.values.preinfusion_sec   = 8;
+  eepromData.values.preinfusion_bar   = 2;
+  eepromData.values.preinfusion_soak  = 5;
+  eepromData.values.regpwrHz          = 60;
+  eepromData.values.warmup            = false;
   eepromData.values.homeOnShotFinish  = true;
-  eepromData.values.graphBrew           = false;
-  eepromData.values.scalesF1            = 1955.571428f;
-  eepromData.values.scalesF2            = -2091.571428f;
+  eepromData.values.graphBrew         = false;
+  eepromData.values.scalesF1          = 1955.571428f;
+  eepromData.values.scalesF2          = -2091.571428f;
 }
 
 void eepromInit() {
