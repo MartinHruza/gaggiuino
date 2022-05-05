@@ -7,95 +7,95 @@
 CRC32 crc;
 
 bool eepromWrite() {
-  char errMsg[] = "Data out of range";
+  String errMsg = "Data out of range";
 
   if (eepromData.values.pStart < 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.pFinish < 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.pHold < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.pLength < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.preinfusion != 0 && eepromData.values.preinfusion != 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.pProfile != 0 && eepromData.values.pProfile != 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.preinfusion_sec < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.preinfusion_soak < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.pLength < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.homeOnShotFinish != 0 && eepromData.values.homeOnShotFinish != 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.graphBrew != 0 && eepromData.values.graphBrew != 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.setpoint <= 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.offset < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.hpwr < 0) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.mDivider < 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.bDivider < 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.regpwrHz != 50 && eepromData.values.regpwrHz != 60) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
   if (eepromData.values.warmup != 0 && eepromData.values.warmup != 1) {
-    LOG_E(errMsg);
+    LOG_E(errMsg.c_str());
     return false;
   }
 
