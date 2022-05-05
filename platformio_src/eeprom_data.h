@@ -1,5 +1,5 @@
-#ifndef __EEPROM_DATA_H_
-#define __EEPROM_DATA_H_
+#ifndef EEPROM_DATA_H
+#define EEPROM_DATA_H
 
 #include <Arduino.h>
 
