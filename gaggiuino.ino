@@ -884,18 +884,6 @@ void lcdInit() {
   myNex.writeNum("piSec", eepromData.values.preinfusion_sec);
   myNex.writeNum("brewAuto.n0.val", eepromData.values.preinfusion_sec);
 
-<<<<<<< HEAD
-  // Warmup checkbox value
-  EEPROM.get(EEP_WARMUP, init_val);//reading preinfusion pressure value from eeprom
-  if (  init_val == 0 || init_val == 1 ) {
-    myNex.writeNum("warmupState", init_val);
-    myNex.writeNum("morePower.bt0.val", init_val);
-  }
-  // Scales values
-  EEPROM.get(EEP_SCALES_F1, scalesF1);//reading scale factors value from eeprom
-  EEPROM.get(EEP_SCALES_F2, scalesF2);//reading scale factors value from eeprom
-
-=======
   myNex.writeNum("piBar", eepromData.values.preinfusion_bar);
   myNex.writeNum("brewAuto.n1.val", eepromData.values.preinfusion_bar);
 
@@ -912,5 +900,4 @@ void lcdInit() {
 
   myNex.writeNum("warmupState", eepromData.values.warmup);
   myNex.writeNum("morePower.bt0.val", eepromData.values.warmup);
->>>>>>> 268f49c (Move EEPROM handling to a separate file and use struct instead of field-by-field writes)
 }
