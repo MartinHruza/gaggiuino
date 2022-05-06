@@ -543,6 +543,7 @@ void lcdRefresh() {
 // cppcheck-suppress unusedFunction
 void trigger1() {
   bool rc;
+  eepromValues_t eepromCurrentValues = eepromGetCurrentValues();
 
   switch (myNex.currentPageId){
     case 1:
@@ -551,43 +552,43 @@ void trigger1() {
       break;
     case 3:
       // Saving ppStart,ppFin,ppHold and ppLength
-      eepromData.values.pStart  = myNex.readNumber("ppStart");
-      eepromData.values.pFinish = myNex.readNumber("ppFin");
-      eepromData.values.pHold   = myNex.readNumber("ppHold");
-      eepromData.values.pLength = myNex.readNumber("ppLength");
-      eepromData.values.preinfusion      = myNex.readNumber("piState");
-      eepromData.values.pProfile         = myNex.readNumber("ppState");
-      eepromData.values.preinfusion_sec  = myNex.readNumber("piSec");
-      eepromData.values.preinfusion_bar  = myNex.readNumber("piBar");
-      eepromData.values.preinfusion_soak = myNex.readNumber("piSoak");
+      eepromCurrentValues.pStart  = myNex.readNumber("ppStart");
+      eepromCurrentValues.pFinish = myNex.readNumber("ppFin");
+      eepromCurrentValues.pHold   = myNex.readNumber("ppHold");
+      eepromCurrentValues.pLength = myNex.readNumber("ppLength");
+      eepromCurrentValues.preinfusion      = myNex.readNumber("piState");
+      eepromCurrentValues.pProfile         = myNex.readNumber("ppState");
+      eepromCurrentValues.preinfusionSec  = myNex.readNumber("piSec");
+      eepromCurrentValues.preinfusionBar  = myNex.readNumber("piBar");
+      eepromCurrentValues.preinfusionSoak = myNex.readNumber("piSoak");
       break;
     case 4:
       //Saving brewSettings
-      eepromData.values.homeOnShotFinish  = myNex.readNumber("homeOnBrewFinish");
-      eepromData.values.graphBrew         = myNex.readNumber("graphEnabled");
+      eepromCurrentValues.homeOnShotFinish  = myNex.readNumber("homeOnBrewFinish");
+      eepromCurrentValues.graphBrew         = myNex.readNumber("graphEnabled");
       break;
     case 5:
       break;
     case 6:
       // Reading the LCD side set values
-      eepromData.values.setpoint = myNex.readNumber("setPoint");
-      eepromData.values.offset   = myNex.readNumber("offSet");
-      eepromData.values.hpwr     = myNex.readNumber("hpwr");
-      eepromData.values.mDivider = myNex.readNumber("mDiv");
-      eepromData.values.bDivider = myNex.readNumber("bDiv");
+      eepromCurrentValues.setpoint = myNex.readNumber("setPoint");
+      eepromCurrentValues.offset   = myNex.readNumber("offSet");
+      eepromCurrentValues.hpwr     = myNex.readNumber("hpwr");
+      eepromCurrentValues.mDivider = myNex.readNumber("mDiv");
+      eepromCurrentValues.bDivider = myNex.readNumber("bDiv");
       break;
     case 7:
-      eepromData.values.regpwrHz = myNex.readNumber("regHz");
+      eepromCurrentValues.regpwrHz = myNex.readNumber("regHz");
 #if defined(ARDUINO_ARCH_AVR)
-      ITimer1.attachInterrupt(eepromData.values.regpwrHz * 2, presISR);
+      ITimer1.attachInterrupt(eepromCurrentValues.regpwrHz * 2, presISR);
 #endif
-      eepromData.values.warmup = myNex.readNumber("warmupState");
+      eepromCurrentValues.warmup = myNex.readNumber("warmupState");
       break;
     default:
       break;
   }
 
-  rc = eepromWrite();
+  rc = eepromWrite(eepromCurrentValues);
   if (rc == true) {
     myNex.writeStr("popupMSG.t0.txt","UPDATE SUCCESSFUL!");
   } else {
@@ -848,56 +849,58 @@ void scalesInit() {
 }
 
 void lcdInit() {
-  myNex.writeNum("setPoint", eepromData.values.setpoint);
-  myNex.writeNum("moreTemp.n1.val", eepromData.values.setpoint);
+  eepromValues_t eepromCurrentValues = eepromGetCurrentValues();
 
-  myNex.writeNum("offSet", eepromData.values.offset);
-  myNex.writeNum("moreTemp.n2.val", eepromData.values.offset);
+  myNex.writeNum("setPoint", eepromCurrentValues.setpoint);
+  myNex.writeNum("moreTemp.n1.val", eepromCurrentValues.setpoint);
 
-  myNex.writeNum("hpwr", eepromData.values.hpwr);
-  myNex.writeNum("moreTemp.n3.val", eepromData.values.hpwr);
+  myNex.writeNum("offSet", eepromCurrentValues.offset);
+  myNex.writeNum("moreTemp.n2.val", eepromCurrentValues.offset);
 
-  myNex.writeNum("mDiv", eepromData.values.mDivider);
-  myNex.writeNum("moreTemp.n4.val", eepromData.values.mDivider);
+  myNex.writeNum("hpwr", eepromCurrentValues.hpwr);
+  myNex.writeNum("moreTemp.n3.val", eepromCurrentValues.hpwr);
 
-  myNex.writeNum("bDiv", eepromData.values.bDivider);
-  myNex.writeNum("moreTemp.n5.val", eepromData.values.bDivider);
+  myNex.writeNum("mDiv", eepromCurrentValues.mDivider);
+  myNex.writeNum("moreTemp.n4.val", eepromCurrentValues.mDivider);
 
-  myNex.writeNum("ppStart", eepromData.values.pStart);
-  myNex.writeNum("brewAuto.n2.val", eepromData.values.pStart);
+  myNex.writeNum("bDiv", eepromCurrentValues.bDivider);
+  myNex.writeNum("moreTemp.n5.val", eepromCurrentValues.bDivider);
 
-  myNex.writeNum("ppFin", eepromData.values.pFinish);
-  myNex.writeNum("brewAuto.n3.val", eepromData.values.pFinish);
+  myNex.writeNum("ppStart", eepromCurrentValues.pStart);
+  myNex.writeNum("brewAuto.n2.val", eepromCurrentValues.pStart);
 
-  myNex.writeNum("ppHold", eepromData.values.pHold);
-  myNex.writeNum("brewAuto.n5.val", eepromData.values.pHold);
+  myNex.writeNum("ppFin", eepromCurrentValues.pFinish);
+  myNex.writeNum("brewAuto.n3.val", eepromCurrentValues.pFinish);
 
-  myNex.writeNum("ppLength", eepromData.values.pLength);
-  myNex.writeNum("brewAuto.n6.val", eepromData.values.pLength);
+  myNex.writeNum("ppHold", eepromCurrentValues.pHold);
+  myNex.writeNum("brewAuto.n5.val", eepromCurrentValues.pHold);
 
-  myNex.writeNum("piState", eepromData.values.preinfusion);
-  myNex.writeNum("brewAuto.bt0.val", eepromData.values.preinfusion);
+  myNex.writeNum("ppLength", eepromCurrentValues.pLength);
+  myNex.writeNum("brewAuto.n6.val", eepromCurrentValues.pLength);
 
-  myNex.writeNum("ppState", eepromData.values.pProfile);
-  myNex.writeNum("brewAuto.bt1.val", eepromData.values.pProfile);
+  myNex.writeNum("piState", eepromCurrentValues.preinfusion);
+  myNex.writeNum("brewAuto.bt0.val", eepromCurrentValues.preinfusion);
 
-  myNex.writeNum("piSec", eepromData.values.preinfusion_sec);
-  myNex.writeNum("brewAuto.n0.val", eepromData.values.preinfusion_sec);
+  myNex.writeNum("ppState", eepromCurrentValues.pProfile);
+  myNex.writeNum("brewAuto.bt1.val", eepromCurrentValues.pProfile);
 
-  myNex.writeNum("piBar", eepromData.values.preinfusion_bar);
-  myNex.writeNum("brewAuto.n1.val", eepromData.values.preinfusion_bar);
+  myNex.writeNum("piSec", eepromCurrentValues.preinfusionSec);
+  myNex.writeNum("brewAuto.n0.val", eepromCurrentValues.preinfusionSec);
 
-  myNex.writeNum("piSoak", eepromData.values.preinfusion_soak);
-  myNex.writeNum("brewAuto.n4.val", eepromData.values.preinfusion_soak);
+  myNex.writeNum("piBar", eepromCurrentValues.preinfusionBar);
+  myNex.writeNum("brewAuto.n1.val", eepromCurrentValues.preinfusionBar);
 
-  myNex.writeNum("regHz", eepromData.values.regpwrHz);
+  myNex.writeNum("piSoak", eepromCurrentValues.preinfusionSoak);
+  myNex.writeNum("brewAuto.n4.val", eepromCurrentValues.preinfusionSoak);
 
-  myNex.writeNum("homeOnBrewFinish", eepromData.values.homeOnShotFinish);
-  myNex.writeNum("brewSettings.btGoHome.val", eepromData.values.homeOnShotFinish);
+  myNex.writeNum("regHz", eepromCurrentValues.regpwrHz);
 
-  myNex.writeNum("graphEnabled", eepromData.values.graphBrew);
-  myNex.writeNum("brewSettings.btGraph.val", eepromData.values.graphBrew);
+  myNex.writeNum("homeOnBrewFinish", eepromCurrentValues.homeOnShotFinish);
+  myNex.writeNum("brewSettings.btGoHome.val", eepromCurrentValues.homeOnShotFinish);
 
-  myNex.writeNum("warmupState", eepromData.values.warmup);
-  myNex.writeNum("morePower.bt0.val", eepromData.values.warmup);
+  myNex.writeNum("graphEnabled", eepromCurrentValues.graphBrew);
+  myNex.writeNum("brewSettings.btGraph.val", eepromCurrentValues.graphBrew);
+
+  myNex.writeNum("warmupState", eepromCurrentValues.warmup);
+  myNex.writeNum("morePower.bt0.val", eepromCurrentValues.warmup);
 }

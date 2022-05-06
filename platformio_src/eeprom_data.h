@@ -3,9 +3,7 @@
 
 #include <Arduino.h>
 
-static volatile struct eeprom_data_struct {
-  uint16_t reset_flag;
-  struct values_struct {
+struct eepromValues_t {
     uint16_t setpoint;
     uint16_t offset;
     uint16_t hpwr;
@@ -17,20 +15,25 @@ static volatile struct eeprom_data_struct {
     uint16_t pLength;
     bool     pProfile;
     bool     preinfusion;
-    uint16_t preinfusion_sec;
-    uint16_t preinfusion_bar;
-    uint16_t preinfusion_soak;
+    uint16_t preinfusionSec;
+    uint16_t preinfusionBar;
+    uint16_t preinfusionSoak;
     uint16_t regpwrHz;
     bool     warmup;
     bool     homeOnShotFinish;
     bool     graphBrew;
     float    scalesF1;
     float    scalesF2;
-  } values;
-  uint32_t crc;
-} eepromData;
+};
 
-void eepromInit();
-bool eepromWrite();
+struct eepromMetadata_t {
+  uint16_t resetFlag;
+  struct eepromValues_t values;
+  uint32_t crc;
+};
+
+void eepromInit(void);
+bool eepromWrite(eepromValues_t);
+struct eepromValues_t eepromGetCurrentValues(void);
 
 #endif
