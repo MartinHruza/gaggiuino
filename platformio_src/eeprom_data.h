@@ -5,21 +5,21 @@
 
 struct eepromValues_t {
     uint16_t setpoint;
-    uint16_t offset;
+    uint16_t offsetTemp;
     uint16_t hpwr;
-    uint16_t mDivider;
-    uint16_t bDivider;
-    uint16_t pStart;
-    uint16_t pFinish;
-    uint16_t pHold;
-    uint16_t pLength;
-    bool     pProfile;
-    bool     preinfusion;
+    uint16_t mainDivider;
+    uint16_t brewDivider;
+    uint16_t preinfusionStart;
+    uint16_t preinfusionFinish;
+    uint16_t preinfusionHold;
+    uint16_t preinfusionLength;
+    bool     preinfusionProfile;
+    bool     preinfusionState;
     uint16_t preinfusionSec;
     uint16_t preinfusionBar;
     uint16_t preinfusionSoak;
-    uint16_t regpwrHz;
-    bool     warmup;
+    uint16_t powerLineFrequency;
+    bool     warmupState;
     bool     homeOnShotFinish;
     bool     graphBrew;
     float    scalesF1;
@@ -28,8 +28,8 @@ struct eepromValues_t {
 
 struct eepromMetadata_t {
   uint16_t resetFlag;
-  struct eepromValues_t values;
   uint32_t crc;
+  struct eepromValues_t values;
 };
 
 void eepromInit(void);

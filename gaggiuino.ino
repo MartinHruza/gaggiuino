@@ -552,15 +552,15 @@ void trigger1() {
       break;
     case 3:
       // Saving ppStart,ppFin,ppHold and ppLength
-      eepromCurrentValues.pStart  = myNex.readNumber("ppStart");
-      eepromCurrentValues.pFinish = myNex.readNumber("ppFin");
-      eepromCurrentValues.pHold   = myNex.readNumber("ppHold");
-      eepromCurrentValues.pLength = myNex.readNumber("ppLength");
-      eepromCurrentValues.preinfusion      = myNex.readNumber("piState");
-      eepromCurrentValues.pProfile         = myNex.readNumber("ppState");
-      eepromCurrentValues.preinfusionSec  = myNex.readNumber("piSec");
-      eepromCurrentValues.preinfusionBar  = myNex.readNumber("piBar");
-      eepromCurrentValues.preinfusionSoak = myNex.readNumber("piSoak");
+      eepromCurrentValues.preinfusionStart    = myNex.readNumber("ppStart");
+      eepromCurrentValues.preinfusionFinish   = myNex.readNumber("ppFin");
+      eepromCurrentValues.preinfusionHold     = myNex.readNumber("ppHold");
+      eepromCurrentValues.preinfusionLength   = myNex.readNumber("ppLength");
+      eepromCurrentValues.preinfusionState    = myNex.readNumber("piState");
+      eepromCurrentValues.preinfusionProfile  = myNex.readNumber("ppState");
+      eepromCurrentValues.preinfusionSec      = myNex.readNumber("piSec");
+      eepromCurrentValues.preinfusionBar      = myNex.readNumber("piBar");
+      eepromCurrentValues.preinfusionSoak     = myNex.readNumber("piSoak");
       break;
     case 4:
       //Saving brewSettings
@@ -571,18 +571,18 @@ void trigger1() {
       break;
     case 6:
       // Reading the LCD side set values
-      eepromCurrentValues.setpoint = myNex.readNumber("setPoint");
-      eepromCurrentValues.offset   = myNex.readNumber("offSet");
-      eepromCurrentValues.hpwr     = myNex.readNumber("hpwr");
-      eepromCurrentValues.mDivider = myNex.readNumber("mDiv");
-      eepromCurrentValues.bDivider = myNex.readNumber("bDiv");
+      eepromCurrentValues.setpoint    = myNex.readNumber("setPoint");
+      eepromCurrentValues.offsetTemp  = myNex.readNumber("offSet");
+      eepromCurrentValues.hpwr        = myNex.readNumber("hpwr");
+      eepromCurrentValues.mainDivider = myNex.readNumber("mDiv");
+      eepromCurrentValues.brewDivider = myNex.readNumber("bDiv");
       break;
     case 7:
-      eepromCurrentValues.regpwrHz = myNex.readNumber("regHz");
+      eepromCurrentValues.powerLineFrequency = myNex.readNumber("regHz");
 #if defined(ARDUINO_ARCH_AVR)
-      ITimer1.attachInterrupt(eepromCurrentValues.regpwrHz * 2, presISR);
+      ITimer1.attachInterrupt(eepromCurrentValues.powerLineFrequency * 2, presISR);
 #endif
-      eepromCurrentValues.warmup = myNex.readNumber("warmupState");
+      eepromCurrentValues.warmupState = myNex.readNumber("warmupState");
       break;
     default:
       break;
@@ -854,35 +854,35 @@ void lcdInit() {
   myNex.writeNum("setPoint", eepromCurrentValues.setpoint);
   myNex.writeNum("moreTemp.n1.val", eepromCurrentValues.setpoint);
 
-  myNex.writeNum("offSet", eepromCurrentValues.offset);
-  myNex.writeNum("moreTemp.n2.val", eepromCurrentValues.offset);
+  myNex.writeNum("offSet", eepromCurrentValues.offsetTemp);
+  myNex.writeNum("moreTemp.n2.val", eepromCurrentValues.offsetTemp);
 
   myNex.writeNum("hpwr", eepromCurrentValues.hpwr);
   myNex.writeNum("moreTemp.n3.val", eepromCurrentValues.hpwr);
 
-  myNex.writeNum("mDiv", eepromCurrentValues.mDivider);
-  myNex.writeNum("moreTemp.n4.val", eepromCurrentValues.mDivider);
+  myNex.writeNum("mDiv", eepromCurrentValues.mainDivider);
+  myNex.writeNum("moreTemp.n4.val", eepromCurrentValues.mainDivider);
 
-  myNex.writeNum("bDiv", eepromCurrentValues.bDivider);
-  myNex.writeNum("moreTemp.n5.val", eepromCurrentValues.bDivider);
+  myNex.writeNum("bDiv", eepromCurrentValues.brewDivider);
+  myNex.writeNum("moreTemp.n5.val", eepromCurrentValues.brewDivider);
 
-  myNex.writeNum("ppStart", eepromCurrentValues.pStart);
-  myNex.writeNum("brewAuto.n2.val", eepromCurrentValues.pStart);
+  myNex.writeNum("ppStart", eepromCurrentValues.preinfusionStart);
+  myNex.writeNum("brewAuto.n2.val", eepromCurrentValues.preinfusionStart);
 
-  myNex.writeNum("ppFin", eepromCurrentValues.pFinish);
-  myNex.writeNum("brewAuto.n3.val", eepromCurrentValues.pFinish);
+  myNex.writeNum("ppFin", eepromCurrentValues.preinfusionFinish);
+  myNex.writeNum("brewAuto.n3.val", eepromCurrentValues.preinfusionFinish);
 
-  myNex.writeNum("ppHold", eepromCurrentValues.pHold);
-  myNex.writeNum("brewAuto.n5.val", eepromCurrentValues.pHold);
+  myNex.writeNum("ppHold", eepromCurrentValues.preinfusionHold);
+  myNex.writeNum("brewAuto.n5.val", eepromCurrentValues.preinfusionHold);
 
-  myNex.writeNum("ppLength", eepromCurrentValues.pLength);
-  myNex.writeNum("brewAuto.n6.val", eepromCurrentValues.pLength);
+  myNex.writeNum("ppLength", eepromCurrentValues.preinfusionLength);
+  myNex.writeNum("brewAuto.n6.val", eepromCurrentValues.preinfusionLength);
 
-  myNex.writeNum("piState", eepromCurrentValues.preinfusion);
-  myNex.writeNum("brewAuto.bt0.val", eepromCurrentValues.preinfusion);
+  myNex.writeNum("piState", eepromCurrentValues.preinfusionState);
+  myNex.writeNum("brewAuto.bt0.val", eepromCurrentValues.preinfusionState);
 
-  myNex.writeNum("ppState", eepromCurrentValues.pProfile);
-  myNex.writeNum("brewAuto.bt1.val", eepromCurrentValues.pProfile);
+  myNex.writeNum("ppState", eepromCurrentValues.preinfusionProfile);
+  myNex.writeNum("brewAuto.bt1.val", eepromCurrentValues.preinfusionProfile);
 
   myNex.writeNum("piSec", eepromCurrentValues.preinfusionSec);
   myNex.writeNum("brewAuto.n0.val", eepromCurrentValues.preinfusionSec);
@@ -893,7 +893,7 @@ void lcdInit() {
   myNex.writeNum("piSoak", eepromCurrentValues.preinfusionSoak);
   myNex.writeNum("brewAuto.n4.val", eepromCurrentValues.preinfusionSoak);
 
-  myNex.writeNum("regHz", eepromCurrentValues.regpwrHz);
+  myNex.writeNum("regHz", eepromCurrentValues.powerLineFrequency);
 
   myNex.writeNum("homeOnBrewFinish", eepromCurrentValues.homeOnShotFinish);
   myNex.writeNum("brewSettings.btGoHome.val", eepromCurrentValues.homeOnShotFinish);
@@ -901,6 +901,6 @@ void lcdInit() {
   myNex.writeNum("graphEnabled", eepromCurrentValues.graphBrew);
   myNex.writeNum("brewSettings.btGraph.val", eepromCurrentValues.graphBrew);
 
-  myNex.writeNum("warmupState", eepromCurrentValues.warmup);
-  myNex.writeNum("morePower.bt0.val", eepromCurrentValues.warmup);
+  myNex.writeNum("warmupState", eepromCurrentValues.warmupState);
+  myNex.writeNum("morePower.bt0.val", eepromCurrentValues.warmupState);
 }

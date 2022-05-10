@@ -11,23 +11,23 @@ bool eepromWrite(eepromValues_t eepromValuesNew) {
   /*
     No need to do these check since it checks UNSIGNED integers
 
-    if (eepromValuesNew.pHold < 0)
-    if (eepromValuesNew.pLength < 0)
+    if (eepromValuesNew.preinfusionHold < 0)
+    if (eepromValuesNew.preinfusionLength < 0)
     if (eepromValuesNew.preinfusionSec < 0)
     if (eepromValuesNew.preinfusionSoak < 0)
-    if (eepromValuesNew.pLength < 0)
+    if (eepromValuesNew.preinfusionLength < 0)
     if (eepromValuesNew.offset < 0)
     if (eepromValuesNew.hpwr < 0) {
   */
 
   String errMsg = String("Data out of range");
 
-  if (eepromValuesNew.preinfusion != 0 && eepromValuesNew.preinfusion != 1) {
+  if (eepromValuesNew.preinfusionState != 0 && eepromValuesNew.preinfusionState != 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
 
-  if (eepromValuesNew.pProfile != 0 && eepromValuesNew.pProfile != 1) {
+  if (eepromValuesNew.preinfusionProfile != 0 && eepromValuesNew.preinfusionProfile != 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
@@ -42,17 +42,17 @@ bool eepromWrite(eepromValues_t eepromValuesNew) {
     return false;
   }
 
-  if (eepromValuesNew.warmup != 0 && eepromValuesNew.warmup != 1) {
+  if (eepromValuesNew.warmupState != 0 && eepromValuesNew.warmupState != 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
 
-  if (eepromValuesNew.pStart < 1) {
+  if (eepromValuesNew.preinfusionStart < 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
 
-  if (eepromValuesNew.pFinish < 1) {
+  if (eepromValuesNew.preinfusionFinish < 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
@@ -62,17 +62,17 @@ bool eepromWrite(eepromValues_t eepromValuesNew) {
     return false;
   }
 
-  if (eepromValuesNew.mDivider < 1) {
+  if (eepromValuesNew.mainDivider < 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
 
-  if (eepromValuesNew.bDivider < 1) {
+  if (eepromValuesNew.brewDivider < 1) {
     LOG_E(errMsg.c_str());
     return false;
   }
 
-  if (eepromValuesNew.regpwrHz != 50 && eepromValuesNew.regpwrHz != 60) {
+  if (eepromValuesNew.powerLineFrequency != 50 && eepromValuesNew.powerLineFrequency != 60) {
     LOG_E(errMsg.c_str());
     return false;
   }
@@ -87,26 +87,26 @@ bool eepromWrite(eepromValues_t eepromValuesNew) {
 void setEepromDefaults(void) {
   eepromData.resetFlag = EEPROM_RESET;
 
-  eepromData.values.setpoint          = 100;
-  eepromData.values.offset            = 7;
-  eepromData.values.hpwr              = 550;
-  eepromData.values.mDivider          = 5;
-  eepromData.values.bDivider          = 2;
-  eepromData.values.pStart            = 9;
-  eepromData.values.pFinish           = 6;
-  eepromData.values.pHold             = 7;
-  eepromData.values.pLength           = 30;
-  eepromData.values.pProfile          = 0;
-  eepromData.values.preinfusion       = false;
-  eepromData.values.preinfusionSec   = 8;
-  eepromData.values.preinfusionBar   = 2;
-  eepromData.values.preinfusionSoak  = 5;
-  eepromData.values.regpwrHz          = 60;
-  eepromData.values.warmup            = false;
-  eepromData.values.homeOnShotFinish  = true;
-  eepromData.values.graphBrew         = false;
-  eepromData.values.scalesF1          = 1955.571428f;
-  eepromData.values.scalesF2          = -2091.571428f;
+  eepromData.values.setpoint            = 100;
+  eepromData.values.offsetTemp          = 7;
+  eepromData.values.hpwr                = 550;
+  eepromData.values.mainDivider         = 5;
+  eepromData.values.brewDivider         = 2;
+  eepromData.values.preinfusionStart    = 9;
+  eepromData.values.preinfusionFinish   = 6;
+  eepromData.values.preinfusionHold     = 7;
+  eepromData.values.preinfusionLength   = 30;
+  eepromData.values.preinfusionProfile  = 0;
+  eepromData.values.preinfusionState    = false;
+  eepromData.values.preinfusionSec      = 8;
+  eepromData.values.preinfusionBar      = 2;
+  eepromData.values.preinfusionSoak     = 5;
+  eepromData.values.powerLineFrequency  = 60;
+  eepromData.values.warmupState         = false;
+  eepromData.values.homeOnShotFinish    = true;
+  eepromData.values.graphBrew           = false;
+  eepromData.values.scalesF1            = 1955.571428f;
+  eepromData.values.scalesF2            = -2091.571428f;
 }
 
 void eepromInit(void) {
