@@ -2,6 +2,7 @@
 #include <lgfx_graphics_driver.h>
 #include <ui_init_screen.h>
 #include <ui_home_screen.h>
+#include "ota/web_ota.h"
 
 /*Change to your screen resolution*/
 static const uint16_t screenWidth  = 480;
@@ -33,11 +34,12 @@ void setup() {
 
     // Init LCD objects
     splash_init();
+    webOtaInit();
 }
 
 void loop() {
     lv_timer_handler(); /* let the GUI do its work */
-    // splash_init();
+    webOtaListen();
 }
 
 /////////////// LCD INIT////////////////
