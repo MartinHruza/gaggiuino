@@ -5,7 +5,7 @@ The format of the file looks like this:
 
 HEADER = GAGGIUINO_FW
 TLV =
-  TAG - uint8, default value 0x01
+  TAG - uint8, 0x01 backend firmware, 0x0A frontend fw
   LENGTH - uint32, length of the firmware in bytes
 
 FIRMWARE must be ordered in the same way as they are flashed, that means backend firmware first and frontend firmware as the last one
@@ -32,17 +32,22 @@ def get_uint(number, nbits: int = 8):
     return 0
 
 output_file = sys.argv[1]
-input_fw_files = sys.argv[2:]
+input_fw_files = {}
+for arg in sys.argv[2:]:
+  priority = arg.split(':')[0].strip()
+  firmware = arg.split(':')[1].strip()
+  input_fw_files[priority] = firmware
 
 print("Output file: " + output_file)
-print("Combining these firmware files: " + ', '.join(input_fw_files))
+print("Combining these firmware files: " + ', '.join(input_fw_files.values()))
 
 with open(output_file,'wb') as out:
   out.write(b'GAGGIUINO_FW')
-  for in_fw in input_fw_files:
-    with open(in_fw, 'rb') as input:
-      tag = get_uint(1)
-      length = get_uint(os.path.getsize(in_fw), 32)
+  for prio in sorted(input_fw_files, reverse=True):
+    with open(input_fw_files[prio], 'rb') as input:
+      print("Processing file: " + input_fw_files[prio] + " with prio: " + prio)
+      tag = get_uint(int(prio))
+      length = get_uint(os.path.getsize(input_fw_files[prio]), 32)
       print(binascii.hexlify(tag))
       print(binascii.hexlify(length))
       out.write(tag)

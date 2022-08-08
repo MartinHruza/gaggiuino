@@ -1,17 +1,29 @@
 import os
-
 Import("env")
+
+def safe_path_decor(path_string):
+  return "\""+path_string+"\""
 
 dependecy_envs = env.GetProjectOption("custom_depends_on")
 
-dependecy_fw_paths = []
+dependencies = {}
 for dep in list(dependecy_envs.split(",")):
-  dependecy_fw_paths.append(os.path.join("$PROJECT_BUILD_DIR", dep.strip(), "firmware.bin"))
+  priority = dep.split(':')[0].strip()
+  dependecy_name = dep.split(':')[1].strip()
+
+  dependencies[priority] = list()
+  dependencies[priority].append(dependecy_name)
+  dependencies[priority].append(os.path.join("$PROJECT_BUILD_DIR", dependecy_name, "firmware.bin"))
+
 
 script_path = os.path.join("$PROJECT_DIR", "scripts", "combine_fw.py")
-command = "\"$PYTHONEXE\" \"" + script_path + "\" \"" + os.path.join("$PROJECT_BUILD_DIR", "$PIOENV", "firmware.bin") + "\""
-for fw in dependecy_fw_paths:
-  command = command + " " + "\"" + fw + "\""
+command = safe_path_decor("$PYTHONEXE") + " " + safe_path_decor(script_path) + " " + safe_path_decor(os.path.join("$PROJECT_BUILD_DIR", "$PIOENV", "firmware.bin"))
+for prio, list_of_vals in dependencies.items():
+  command = command + " " + safe_path_decor(prio + ":" + list_of_vals[1])
+
+dependecy_fw_paths = []
+for prio, list_of_vals in dependencies.items():
+  dependecy_fw_paths.append(list_of_vals[1])
 
 env.AddCustomTarget(
     name="combine_firmware_files",
